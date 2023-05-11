@@ -6,6 +6,10 @@
     <groupId>org.acme</groupId>
     <artifactId>code-with-quarkus</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+
+    <name>A simple project</name>
+    <description>A simple project to test jreleaser</description>
+
     <properties>
         <compiler-plugin.version>3.11.0</compiler-plugin.version>
         <maven.compiler.release>17</maven.compiler.release>
