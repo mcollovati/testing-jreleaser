@@ -8,6 +8,7 @@ on:
         type: string
       dry-run:
         description: "Dry run (Skips remote operations)"
+        required: true
         type: boolean
         default: false
 jobs:
@@ -18,19 +19,33 @@ jobs:
     steps:
       - name: Validate version
         run: |
-          .github/scripts/check_version.sh "${{ github.event.inputs.version }}"
+          VERSION_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(\.(alpha|beta|rc)[0-9]+)?$'
+          if [[ ! "${{ inputs.version }}" =~ $VERSION_REGEX ]]; then
+            echo "ERROR: Invalid SemVer version specified. Please enter a valid SemVer version, like '1.2.3' or '1.0.0.alpha1'."
+            exit 1
+          fi
+
+      - name: Check Branch
+        run: |
+          echo "================= ${{ github.ref_name }}"
+          ALLOWED_BRANCHES=("main" "1.0" "2.0")
+          BRANCH_NAME=${GITHUB_REF##*/}
+          if [[ ! " ${ALLOWED_BRANCHES[@]} " =~ " ${BRANCH_NAME} " ]]; then
+            echo "ERROR: Branch name is not allowed. Only branches $(IFS=,; echo "${ALLOWED_BRANCHES[*]}") are allowed."
+            exit 1
+          fi
 
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          distribution: 'temurin'
-          server-id: central
+#      - name: Setup Java
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: 17
+#          distribution: 'temurin'
+#          server-id: central
 
       - name: Staging artifacts
         env:
@@ -48,7 +63,7 @@ jobs:
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
         run: |
-          echo mvn -Pdistribution -Djreleaser.dry.run=${{ github.event.inputs.dry-run }} jreleaser:full-release 
+          echo mvn -Pdistribution -Djreleaser.dry.run="${{ github.event.inputs.dry-run }}" jreleaser:full-release 
 
       - name: JReleaser release output
         if: always()
