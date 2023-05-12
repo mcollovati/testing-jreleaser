@@ -5,10 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.acme</groupId>
     <artifactId>code-with-quarkus</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.0.1-alpha1</version>
 
     <name>A simple project</name>
     <description>A simple project to test jreleaser</description>
+    <url>https://github.com/mcollovati/testing-jreleaser</url>
+    <scm>
+        <connection>scm:git:https://github.com/mcollovati/testing-jreleaser.git</connection>
+        <developerConnection>scm:git:https://github.com/mcollovati/testing-jreleaser.git</developerConnection>
+        <url>https://github.com/mcollovati/testing-jreleaser.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <compiler-plugin.version>3.11.0</compiler-plugin.version>
@@ -32,6 +39,7 @@
             <email>bof@gmail.com</email>
         </developer>
     </developers>
+
 
     <inceptionYear>2023</inceptionYear>
     <licenses>
@@ -145,6 +153,36 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <attach>true</attach>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <attach>true</attach>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>org.jreleaser</groupId>
                         <artifactId>jreleaser-maven-plugin</artifactId>
                         <version>1.6.0</version>
@@ -154,7 +192,15 @@
                                 <release>
                                     <github>
                                         <owner>mcollovati</owner>
-                                        <overwrite>testing-jreleaser</overwrite>
+                                        <name>testing-jreleaser</name>
+                                        <changelog>
+                                            <formatted>ALWAYS</formatted>
+                                            <preset>conventional-commits</preset>
+                                        </changelog>
+                                        <draft>true</draft>
+                                        <prerelease>
+                                            <pattern>.*-(alpha|beta|rc)\d+</pattern>
+                                        </prerelease>
                                     </github>
                                 </release>
                                 <deploy>
@@ -162,12 +208,17 @@
                                         <artifactory>
                                             <app>
                                                 <active>ALWAYS</active>
-                                                <url>https://mcollovati.jfrog.io/artifactory/maven</url>
+                                                <url>https://mcollovati.jfrog.io/artifactory/jreleaser-tests</url>
                                                 <stagingRepositories>target/staging-deploy</stagingRepositories>
+                                                <applyMavenCentralRules>true</applyMavenCentralRules>
                                             </app>
                                         </artifactory>
                                     </maven>
                                 </deploy>
+                                <signing>
+                                    <active>ALWAYS</active>
+                                    <mode>FILE</mode>
+                                </signing>
                             </jreleaser>
                         </configuration>
                     </plugin>
