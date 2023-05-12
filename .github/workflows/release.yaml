@@ -55,7 +55,7 @@ jobs:
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
         run: |
-          mvn -Pdistribution deploy -Drevision=${{ inputs.version }} -DaltDeploymentRepository=local::file:./target/staging-deploy
+          mvn -V -ntp -Pdistribution deploy -Drevision=${{ inputs.version }} -DaltDeploymentRepository=local::file:./target/staging-deploy
 
       - name: Run JReleaser
         env:
@@ -65,7 +65,7 @@ jobs:
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
         run: |
-          mvn -Pdistribution  -Drevision=${{ inputs.version }} -Djreleaser.dry.run="${{ github.event.inputs.dry-run }}" jreleaser:full-release 
+          mvn -V -ntp -Pdistribution  -Drevision=${{ inputs.version }} -Djreleaser.dry.run="${{ github.event.inputs.dry-run }}" jreleaser:full-release 
 
       - name: JReleaser release output
         if: always()
