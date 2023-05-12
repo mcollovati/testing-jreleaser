@@ -152,6 +152,9 @@
         </profile>
         <profile>
             <id>distribution</id>
+            <properties>
+                <jreleaser.signing.mode>MEMORY</jreleaser.signing.mode>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -226,7 +229,7 @@
                                 </deploy>
                                 <signing>
                                     <active>ALWAYS</active>
-                                    <mode>FILE</mode>
+                                    <mode>${jreleaser.signing.mode}</mode>
                                 </signing>
                             </jreleaser>
                         </configuration>
