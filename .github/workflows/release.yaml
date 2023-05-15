@@ -26,14 +26,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Validate Workflow branch
-        run: |
-          BRANCH_NAME=${GITHUB_REF##*/}
-          if [[ "${BRANCH_NAME}" != "main" ]]; then
-            echo "ERROR: Release workflow must run on 'main' branch."
-            exit 1
-          fi
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
