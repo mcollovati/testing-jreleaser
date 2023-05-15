@@ -17,7 +17,6 @@ jobs:
         with:
           allowUserToSpecifyBranchViaLabel: 'true'
           labelPatternRequirement: 'target/'
-          userBranchPrefix: "cherrypick/pick-${{ github.event.number }}-to-"
           labels: |
             cherry-pick
 env:
