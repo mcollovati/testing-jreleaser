@@ -6,6 +6,15 @@ on:
         description: "Version to release (e.g. 1.1.0 or 1.2.0.alpha1)"
         required: true
         type: string
+      target-branch:
+        description: "Branch to release"
+        required: true
+        type: choice
+        default: 'main'
+        options:
+        - main
+        - 2.0
+        - 1.0
       dry-run:
         description: "Dry run (Skips remote operations)"
         required: true
@@ -17,9 +26,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Validate Workflow branch
+        run: |
+          BRANCH_NAME=${GITHUB_REF##*/}
+          if [[ "${BRANCH_NAME}" != "main" ]]; then
+            echo "ERROR: Release workflow must run on 'main' branch."
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          ref: refs/heads/${{ inputs.target-branch }}
           fetch-depth: 0
 
       - name: Validate version
