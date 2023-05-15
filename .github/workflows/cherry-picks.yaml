@@ -1,0 +1,24 @@
+name: Cherry picks
+on:
+  pull_request:
+    types: ["closed", "labeled"]
+
+jobs:
+  cherry_pick:
+    runs-on: ubuntu-latest
+    name: Cherry Pick
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Auto Cherry Pick
+        uses: xealth/cherry-pick-action@v1.0.0
+        with:
+          allowUserToSpecifyBranchViaLabel: 'true'
+          labelPatternRequirement: 'target/'
+          userBranchPrefix: "cherrypick/pick-${{ github.event.number }}-to-"
+          labels: |
+            cherry-pick
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
