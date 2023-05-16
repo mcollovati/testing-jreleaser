@@ -2,10 +2,6 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "Version to release (e.g. 1.1.0 or 1.2.0.alpha1)"
-        required: true
-        type: string
       target-branch:
         description: "Branch to release"
         required: true
@@ -15,6 +11,10 @@ on:
         - main
         - 2.0
         - 1.0
+      version:
+        description: "Version to release (e.g. 1.1.0 or 1.2.0.alpha1)"
+        required: true
+        type: string
       dry-run:
         description: "Dry run (Skips remote operations)"
         required: true
