@@ -26,6 +26,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Validate Workflow branch
+        run: |
+          BRANCH_NAME=${GITHUB_REF##*/}
+          if [[ "main" != "${BRANCH_NAME}" ]]; then
+            echo "ERROR: Release Workflow must be dispatched on 'main' branch."
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -44,14 +52,14 @@ jobs:
             exit 1
           fi
 
-      - name: Check Branch
-        run: |
-          ALLOWED_BRANCHES=("main" "1.0" "2.0")
-          BRANCH_NAME=${GITHUB_REF##*/}
-          if [[ ! " ${ALLOWED_BRANCHES[@]} " =~ " ${BRANCH_NAME} " ]]; then
-            echo "ERROR: Branch ${GITHUB_REF} is not allowed. Only branches $(IFS=,; echo "${ALLOWED_BRANCHES[*]}") are allowed."
-            exit 1
-          fi
+#      - name: Check Branch
+#        run: |
+#          ALLOWED_BRANCHES=("main" "1.0" "2.0")
+#          BRANCH_NAME=${GITHUB_REF##*/}
+#          if [[ ! " ${ALLOWED_BRANCHES[@]} " =~ " ${BRANCH_NAME} " ]]; then
+#            echo "ERROR: Branch ${GITHUB_REF} is not allowed. Only branches $(IFS=,; echo "${ALLOWED_BRANCHES[*]}") are allowed."
+#            exit 1
+#          fi
 
       - name: Setup Java
         uses: actions/setup-java@v3
