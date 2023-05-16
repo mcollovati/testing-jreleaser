@@ -1,6 +1,5 @@
 name: Cherry picks
 on:
-
   pull_request:
     types: ["closed", "labeled"]
 
