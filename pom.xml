@@ -77,6 +77,10 @@
             <version>2.0.0</version>
         </dependency>
         <dependency>
+            <groupId>dev.hilla</groupId>
+            <artifactId>endpoint</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
