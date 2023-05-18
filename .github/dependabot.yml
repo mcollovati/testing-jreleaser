@@ -15,8 +15,8 @@ updates:
     target_branch: "1.0"
     ignore:
       - dependency-name: "dev.hilla:*"
-        version: "(,2.0)"
+        versions: "(,2.0)"
       - dependency-name: "com.vaadin:vaadin-quarkus"
-        version: "(,2.0)"
+        versions: "(,2.0)"
       - dependency-name: "io.quarkus*:*"
-        version: "(,3.0)"
+        versions: "(,3.0)"
