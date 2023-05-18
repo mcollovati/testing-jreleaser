@@ -9,10 +9,14 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+      time: "15:35"
+      timezone: "Europe/Rome"
   - package-ecosystem: ""
     directory: "/"
     schedule:
       interval: "daily"
+      time: "15:35"
+      timezone: "Europe/Rome"
     target_branch: "1.0"
     ignore:
       - dependency-name: "dev.hilla:*"
