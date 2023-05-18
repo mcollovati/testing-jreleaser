@@ -16,7 +16,7 @@ updates:
     target-branch: "1.0"
     schedule:
       interval: "daily"
-      time: "16:40"
+      time: "17:10"
       timezone: "Europe/Rome"
     ignore:
       - dependency-name: "dev.hilla:*"
