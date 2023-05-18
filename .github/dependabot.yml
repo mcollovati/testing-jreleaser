@@ -7,15 +7,16 @@ version: 2
 updates:
   - package-ecosystem: "maven"
     directory: "/"
+    target_branch: "main"
     schedule:
       interval: "daily"
-      time: "15:35"
+      time: "15:40"
       timezone: "Europe/Rome"
   - package-ecosystem: "maven"
     directory: "/"
     schedule:
       interval: "daily"
-      time: "15:35"
+      time: "15:40"
       timezone: "Europe/Rome"
     target_branch: "1.0"
     ignore:
