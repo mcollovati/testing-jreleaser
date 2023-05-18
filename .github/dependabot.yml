@@ -5,13 +5,13 @@
 
 version: 2
 updates:
-  - package-ecosystem: ""
+  - package-ecosystem: "maven"
     directory: "/"
     schedule:
       interval: "daily"
       time: "15:35"
       timezone: "Europe/Rome"
-  - package-ecosystem: ""
+  - package-ecosystem: "maven"
     directory: "/"
     schedule:
       interval: "daily"
