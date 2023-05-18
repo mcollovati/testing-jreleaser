@@ -16,11 +16,11 @@ updates:
     target-branch: "1.0"
     schedule:
       interval: "daily"
-      time: "17:15"
+      time: "17:45"
       timezone: "Europe/Rome"
     ignore:
       - dependency-name: "dev.hilla"
-        versions: ">2"
+        versions: "(,2)"
       - dependency-name: "com.vaadin:vaadin-quarkus"
         versions: ">2"
       - dependency-name: "io.quarkus"
