@@ -6,9 +6,10 @@ version: 2
 updates:
   - package-ecosystem: "maven"
     directory: "/"
+    target-branch: "1.0"
     schedule:
       interval: "daily"
-      time: "15:50"
+      time: "16:40"
       timezone: "Europe/Rome"
     ignore:
       - dependency-name: "dev.hilla:*"
