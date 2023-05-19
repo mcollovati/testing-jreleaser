@@ -30,6 +30,6 @@ updates:
       - dependency-name: "dev.hilla:*"
         versions: "< 2.0"
       - dependency-name: "com.vaadin:vaadin-quarkus"
-        versions: "< 2.0"
+        versions: "[1.0,2.0)"
       - dependency-name: "io.quarkus"
         versions: "< 3.0"
