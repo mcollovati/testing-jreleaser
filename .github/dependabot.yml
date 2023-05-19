@@ -21,3 +21,15 @@ updates:
         versions: "< 2.0"
       - dependency-name: "io.quarkus"
         versions: "< 3.0"
+  - package-ecosystem: "maven"
+    directory: "/"
+    target-branch: "2.0"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "dev.hilla:*"
+        versions: "< 2.0"
+      - dependency-name: "com.vaadin:vaadin-quarkus"
+        versions: "< 2.0"
+      - dependency-name: "io.quarkus"
+        versions: "< 3.0"
