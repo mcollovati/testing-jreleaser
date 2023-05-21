@@ -21,22 +21,13 @@ on:
         type: boolean
         default: false
 jobs:
-  release:
-    name: Release
+  check-user:
+    uses: ./.github/workflows/check-permissions.yaml
+    with:
+      username: ${{github.triggering_actor}}
+  check-inputs:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions-cool/check-user-permission@main
-        id: checkUser
-        with:
-          username: ${{github.triggering_actor}}
-          check-contributor: true
-          require: 'write'
-      - name: Fail on workflow triggered by external contributor
-        if: ${{ steps.checkUser.outputs.require-result != 'true' }}
-        run: |
-          echo "🚫 **${{ github.actor }}** is an external contributor, only **${{ github.repository }}** team members can perform a release" \
-            | tee -a $GITHUB_STEP_SUMMARY && exit 1
       - name: Validate Workflow branch
         run: |
           BRANCH_NAME=${GITHUB_REF##*/}
@@ -45,13 +36,11 @@ jobs:
              | tee -a  $GITHUB_STEP_SUMMARY
             exit 1
           fi
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
           ref: refs/heads/${{ inputs.target-branch }}
           fetch-depth: 0
-
       - name: Validate version
         run: |
           VERSION_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)[0-9]+)?$'
@@ -65,26 +54,30 @@ jobs:
              | tee -a  $GITHUB_STEP_SUMMARY
             exit 1
           fi
-
-#      - name: Check Branch
-#        run: |
-#          ALLOWED_BRANCHES=("main" "1.0" "2.0")
-#          BRANCH_NAME=${GITHUB_REF##*/}
-#          if [[ ! " ${ALLOWED_BRANCHES[@]} " =~ " ${BRANCH_NAME} " ]]; then
-#            echo "ERROR: Branch ${GITHUB_REF} is not allowed. Only branches $(IFS=,; echo "${ALLOWED_BRANCHES[*]}") are allowed."
-#            exit 1
-#          fi
-
+  run-validation:
+    uses: ./.github/workflows/build-and-test.yaml
+    needs: [ check-inputs ]
+    with:
+      java_version: 17
+      ref: ${{ github.event.pull_request.head.sha }}
+  release:
+    runs-on: ubuntu-latest
+    needs: [ run-validation ]
+    name: Release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: refs/heads/${{ inputs.target-branch }}
+          fetch-depth: 0
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
           java-version: 17
           distribution: 'temurin'
-
       - name: Staging artifacts
         run: |
-          mvn -V -ntp -Pdistribution deploy -Drevision=${{ inputs.version }} -DaltDeploymentRepository=local::file:./target/staging-deploy
-
+          mvn -V -ntp -Pdistribution -DskipTests -Drevision=${{ inputs.version }} -DaltDeploymentRepository=local::file:./target/staging-deploy deploy 
       - name: Run JReleaser
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
