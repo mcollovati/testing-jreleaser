@@ -1,4 +1,4 @@
-name: Validate
+name: Check user permission
 on:
   workflow_call:
     inputs:
