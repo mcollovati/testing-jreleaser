@@ -24,3 +24,4 @@ jobs:
     uses: ./.github/workflows/build-and-test.yaml
     with:
       java_version: 17
+      ref: ${{ github.event.pull_request.head.sha }}

@@ -5,6 +5,9 @@ on:
       java_version:
         default: 17
         type: string
+      ref:
+        required: true
+        type: string
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -12,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: refs/heads/${{ inputs.target-branch }}
+          ref: ${{ inputs.ref }}
           fetch-depth: 0
       - name: Setup Java
         uses: actions/setup-java@v3
