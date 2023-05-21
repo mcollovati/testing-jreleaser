@@ -22,6 +22,7 @@ jobs:
       username: ${{github.triggering_actor}}
   run-validation:
     uses: ./.github/workflows/build-and-test.yaml
+    needs: [ check-user ]
     with:
       java_version: 17
       ref: ${{ github.event.pull_request.head.sha }}
