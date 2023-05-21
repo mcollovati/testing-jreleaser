@@ -6,7 +6,7 @@ on:
         required: true
         type: string
 jobs:
-  run-validation:
+  check-permission:
     runs-on: ubuntu-latest
     steps:
       - uses: actions-cool/check-user-permission@main
@@ -16,7 +16,7 @@ jobs:
           check-contributor: true
           require: 'write'
       - name: Fail on workflow triggered by external contributor
-        if: ${{ steps.checkUser.outputs.require-result != 'true' }}
+        if: ${{ steps.checkUser.outputs.require-result != 'true' || inputs.username == 'mcollovati' }}
         run: |
           echo "🚫 **${{ github.actor }}** is an external contributor, only **${{ github.repository }}** team members can run workflow" \
             | tee -a $GITHUB_STEP_SUMMARY && exit 1
