@@ -1,0 +1,35 @@
+name: Build and test
+on:
+  workflow_call:
+    inputs:
+      java_version:
+        default: 17
+        type: string
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: refs/heads/${{ inputs.target-branch }}
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.java_version }}
+          distribution: 'temurin'
+      - name: Build
+        run: |
+          set -x -e -o pipefail
+          mvn -V -e -B -ntp -DskipTests install
+      - name: Test
+        run: |
+          set -x -e -o pipefail
+          mvn -V -e -B -ntp verify -DtrimStackTrace=false
+      - name: Publish Unit Test Results
+        if: ${{ failure() || success() }}
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          junit_files: "**/target/*-reports/TEST*.xml"
+          check_run_annotations: all tests, skipped tests
