@@ -26,6 +26,7 @@ jobs:
     with:
       username: ${{github.triggering_actor}}
   check-inputs:
+    needs: [ check-user ]
     runs-on: ubuntu-latest
     steps:
       - name: Validate Workflow branch
