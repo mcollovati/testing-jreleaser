@@ -20,6 +20,37 @@ jobs:
     uses: ./.github/workflows/check-permissions.yaml
     with:
       username: ${{github.triggering_actor}}
+  format-check:
+    needs: [ check-user ]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Prepare PR comment
+        run: |
+          echo "a" >> /tmp/files.txt
+          echo "b" >> /tmp/files.txt
+          echo "c" >> /tmp/files.txt
+          _files=$(wc -l /tmp/files.txt)
+          echo "# Format Checker Report" >> /tmp/message
+          echo "" >> /tmp/message
+          echo "There are ${_files} files with format errors"
+          echo "" >> /tmp/message
+          echo "* To fix the build, please run mvn spotless:apply in your branch and commit the changes." >> /tmp/message 
+          echo "* In alternative apply the `automation/format` label to the PR." >> /tmp/message
+          echo "" >> /tmp/message
+          echo "" >> /tmp/message
+          echo "Here is the list of files with format issues in your PR:"
+          echo "```"
+          cat /tmp/files.txt  >> /tmp/message
+          echo "```"
+          echo "And here the full diff: "
+          echo "```"
+          cat /tmp/files.txt  >> /tmp/message
+          echo "```"
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: /tmp/message.txt
+          comment_tag: formatting-check
   run-validation:
     uses: ./.github/workflows/build-and-test.yaml
     needs: [ check-user ]

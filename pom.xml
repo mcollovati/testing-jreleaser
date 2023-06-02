@@ -232,7 +232,7 @@
                                         <tagName>${project.version}</tagName>
                                         <releaseName>My Project ${project.version}</releaseName>
                                         <prerelease>
-                                            <pattern>.*\.(alpha|beta|rc)\d+</pattern>
+                                            <pattern>.*-(alpha|beta|rc)\d+</pattern>
                                         </prerelease>
                                     </github>
                                 </release>
