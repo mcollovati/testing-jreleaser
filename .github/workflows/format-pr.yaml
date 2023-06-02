@@ -46,6 +46,13 @@ jobs:
               issue_number: prNumber,
               labels: [labelToAdd],
             });
+            await github.rest.issues.removeLabel({
+              owner,
+              repo,
+              issue_number: prNumber,
+              name: "auto-format",
+            });
+            
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
