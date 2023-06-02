@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetchref: ${{ inputs.ref }}
+          fetchref: ${{ github.event.pull_request.head.sha }}
       - name: Apply changes
         run: |
           echo "" >> src/main/java/com/acme/example/MyClass.java
