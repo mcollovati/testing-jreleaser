@@ -32,20 +32,20 @@ jobs:
           _files=$(wc -l /tmp/files.txt)
           echo "# Format Checker Report" >> /tmp/message
           echo "" >> /tmp/message
-          echo "There are ${_files} files with format errors"
+          echo "There are ${_files} files with format errors" >> /tmp/message
           echo "" >> /tmp/message
           echo "* To fix the build, please run mvn spotless:apply in your branch and commit the changes." >> /tmp/message 
           echo "* In alternative apply the `automation/format` label to the PR." >> /tmp/message
           echo "" >> /tmp/message
           echo "" >> /tmp/message
-          echo "Here is the list of files with format issues in your PR:"
-          echo "```"
+          echo "Here is the list of files with format issues in your PR:" >> /tmp/message
+          echo "```" >> /tmp/message
           cat /tmp/files.txt  >> /tmp/message
-          echo "```"
-          echo "And here the full diff: "
-          echo "```"
+          echo "```" >> /tmp/message
+          echo "And here the full diff: " >> /tmp/message
+          echo "```" >> /tmp/message
           cat /tmp/files.txt  >> /tmp/message
-          echo "```"
+          echo "```" >> /tmp/message
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
