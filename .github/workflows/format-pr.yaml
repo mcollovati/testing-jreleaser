@@ -18,6 +18,7 @@ jobs:
           fetchref: ${{ github.event.pull_request.head.sha }}
       - name: Apply changes
         run: |
+          git pull
           echo "" >> src/main/java/com/acme/example/MyClass.java
           git config --global user.email "quarkus-hilla-github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
