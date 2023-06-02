@@ -24,6 +24,30 @@ jobs:
     needs: [ check-user ]
     runs-on: ubuntu-22.04
     steps:
+      - name: Remove label
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const prNumber = context.payload.pull_request.number;
+            const octokit = context.octokit;
+            
+            // Remove the label if it exists
+            const existingLabels = await octokit.issues.listLabelsOnIssue({
+              owner,
+              repo,
+              issue_number: prNumber,
+            });
+            const labelsToRemove = existingLabels.data.map(label => label.name).filter( label => label.startsWith("format:") );
+            for (const labelToRemove of labelsToRemove) {
+              await octokit.issues.removeLabel({
+                owner,
+                repo,
+                issue_number: prNumber,
+                name: labelToRemove,
+              });
+            }
       - name: Prepare PR comment
         run: |
           echo "a" >> /tmp/files.txt
@@ -47,15 +71,33 @@ jobs:
           echo "And here the full diff: " >> /tmp/message
           echo "<details>" >> /tmp/message
           echo "  <summary>Full Diff</summary>" >> /tmp/message
-          echo "  <pre>" >> /tmp/message
+          echo "" >> /tmp/message
+          echo '```patch' >> /tmp/message
           cat /tmp/files.txt  >> /tmp/message
-          echo "  </pre>" >> /tmp/message
+          echo '```' >> /tmp/message
           echo "</details>" >> /tmp/message
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: /tmp/message
           comment_tag: formatting-check
+      - name: Add label to PR
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const prNumber = context.payload.pull_request.number;
+            const labelToAdd = 'format:required';
+
+            const octokit = context.octokit;
+            await octokit.issues.addLabels({
+              owner,
+              repo,
+              issue_number: prNumber,
+              labels: [labelToAdd],
+            });
+
   run-validation:
     uses: ./.github/workflows/build-and-test.yaml
     needs: [ check-user ]
