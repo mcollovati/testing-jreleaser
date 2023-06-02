@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetchref: ${{ inputs.ref }}
       - name: Apply changes
         run: |
           echo "" >> src/main/java/com/acme/example/MyClass.java
