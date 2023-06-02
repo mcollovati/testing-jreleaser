@@ -47,7 +47,9 @@ jobs:
           echo "And here the full diff: " >> /tmp/message
           echo "<details>" >> /tmp/message
           echo "  <summary>Full Diff</summary>" >> /tmp/message
+          echo "  <pre>" >> /tmp/message
           cat /tmp/files.txt  >> /tmp/message
+          echo "  </pre>" >> /tmp/message
           echo "</details>" >> /tmp/message
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
