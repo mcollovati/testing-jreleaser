@@ -23,7 +23,7 @@ jobs:
   format-check:
     needs: [ check-user ]
     runs-on: ubuntu-22.04
-    if: github.event_name != 'pull_request_target'
+    if: github.event_name == 'pull_request_target'
     steps:
       - name: Remove labels
         uses: actions/github-script@v6
