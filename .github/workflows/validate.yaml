@@ -17,7 +17,7 @@ env:
   JAVA_VERSION: 17
 jobs:
   check-user:
-    uses: ./.github/actions/check-permissions/action.yaml
+    uses: ./.github/actions/check-permissions
     with:
       username: ${{github.triggering_actor}}
   format-check:
@@ -98,7 +98,7 @@ jobs:
             });
 
   run-validation:
-    uses: ./.github/actions/run-validation/action.yaml
+    uses: ./.github/actions/run-validation
     needs: [ check-user ]
     with:
       java_version: 17
