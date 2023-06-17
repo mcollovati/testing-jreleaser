@@ -1,7 +1,7 @@
 name: Cherry picks
 on:
   pull_request:
-    types: ["labeled"]
+    types: ["closed", "labeled"]
 
 jobs:
   cherry_pick:
