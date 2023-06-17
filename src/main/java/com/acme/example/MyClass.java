@@ -1,6 +1,6 @@
 package com.acme.example;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Hello World
