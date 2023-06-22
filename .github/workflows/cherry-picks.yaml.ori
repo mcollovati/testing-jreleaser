@@ -1,0 +1,49 @@
+name: Cherry picks
+on:
+  pull_request:
+    types: ["closed"]
+    #types: ["closed", "labeled"]
+
+jobs:
+  cherry_pick:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    name: Cherry Pick
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Auto Cherry Pick
+        if: false
+        uses: xealth/cherry-pick-action@v1.0.0
+        with:
+          allowUserToSpecifyBranchViaLabel: 'true'
+          labelPatternRequirement: 'target/'
+          labels: |
+            cherry-pick
+      - name: Compute targets
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const existingLabels = await github.rest.issues.listLabelsOnIssue({
+              owner,
+              repo,
+              issue_number: prNumber,
+            }).then(resp => resp.data.map(label => label.name))
+            
+            const targetBranches = existingLabels
+              .filter(label => label.startsWith("target/"))
+              .map(label => label.substring(7));
+            
+            const pickedOrFailed = existingLabels
+              .filter(label => label.startsWith("cherry-pick-failed/") || label.startsWith("cherry-picked/"))
+              .map(label => label.match(/^cherry-pick(?:ed|-failed)\/(.*)/)[1]);
+            
+            const toPick = targetBranches.filter( br => !pickedOrFailed.includes(br) );
+            return toPick
+            
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
