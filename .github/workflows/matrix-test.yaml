@@ -27,5 +27,5 @@ jobs:
           distribution: 'temurin'
       - name: Build
         run: |
-          echo "mvn clean install -Dhilla.version=${{ matrix.hilla }}
+          echo "mvn clean install -Dhilla.version=${{ matrix.hilla }}"
           
