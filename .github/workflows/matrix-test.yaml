@@ -10,9 +10,9 @@ jobs:
         include:
           - hilla: "1.3-SNAPSHOT"
             java: 11
-            branch: 1.0
+            branch: "1.0"
           - hilla: "2.1-SNAPSHOT"
-            branch: main
+            branch: "main"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
