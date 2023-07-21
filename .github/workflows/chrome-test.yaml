@@ -15,7 +15,9 @@ jobs:
           chrome-version: stable
       - name: Add chrome to PATH
         run: |
-          echo "${{ steps.setup-chrome.outputs.chrome-path }}" >> $GITHUB_PATH
+          mkdir --parents $HOME/.local/bin
+          ln -s ${{ steps.setup-chrome.outputs.chrome-path }} $HOME/.local/bin/google-chrome
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Build
         run: |
           env | sort
