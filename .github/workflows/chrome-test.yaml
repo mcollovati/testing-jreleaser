@@ -1,0 +1,23 @@
+name: Chrome setup test
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+env:
+  JAVA_VERSION: 17
+jobs:
+  chrome_setup_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: browser-actions/setup-chrome@latest
+        id: setup-chrome
+        with:
+          chrome-version: stable
+      - name: Add chrome to PATH
+        run: |
+          echo "${{ steps.setup-chrome.outputs.chrome-path }}" >> $GITHUB_PATH
+      - name: Build
+        run: |
+          env | sort
+          which chrome || echo "chrome not found"
+          which google-chrome || echo "google-chrome not found"
