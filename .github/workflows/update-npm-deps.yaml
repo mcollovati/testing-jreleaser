@@ -15,10 +15,6 @@ permissions:
   pull-requests: write
   contents: write
 jobs:
-  handle-existing-pr:
-    runs-on: ubuntu-latest
-    name: Handle existing PR
-    steps:
   update-npm-deps:
     runs-on: ubuntu-latest
     name: Update NPM dependencies
