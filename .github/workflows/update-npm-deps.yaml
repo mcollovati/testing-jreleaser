@@ -68,7 +68,7 @@ jobs:
       - name: Create PR
         if: ${{ steps.commit-changes.outputs.changes_detected == 'true' && steps.searchpr.prNumber == '0' }}
         run: |
-          gh pr create --head chore/update_npm_deps_${{ inputs.target-branch }} --base ${{ inputs.target-branch }} 
+          gh pr create --head chore/update_npm_deps_${{ inputs.target-branch }} --base ${{ inputs.target-branch }} \
             --title "chore(npm-deps): update npm dependencies (${{ inputs.target-branch }})" \
             --body "" --label "dependencies"
         env:
