@@ -2,7 +2,7 @@ name: Update NPM dependencies
 on:
   workflow_dispatch:
     inputs:
-      branch:
+      target-branch:
         description: "Branch to update"
         required: true
         type: choice
