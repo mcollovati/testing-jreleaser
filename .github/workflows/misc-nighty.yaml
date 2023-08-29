@@ -11,8 +11,8 @@ on:
           - main
           - "2.0"
           - "1.0"
-  schedule:
-    - cron: '*/5 * * * *'
+#  schedule:
+#    - cron: '*/5 * * * *'
 jobs:
   compute-matrix:
     runs-on: ubuntu-latest
