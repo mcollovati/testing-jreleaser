@@ -59,6 +59,7 @@ jobs:
           branch: "chore/update_npm_deps_${{ inputs.target-branch }}"
           create_branch: ${{ steps.searchpr.outputs.prNumber == '0' }}
           file_pattern: ':(glob)**/package*.json'
+          push_options: '--force-with-lease'
       - name: Generate token
         uses: tibdex/github-app-token@v1
         if: ${{ steps.commit-changes.outputs.changes_detected == 'true' && steps.searchpr.outputs.prNumber == '0' }}
