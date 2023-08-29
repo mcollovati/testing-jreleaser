@@ -32,7 +32,7 @@ jobs:
       - name: Search existing PR
         id: searchpr
         run: |
-          existingPR=$(gh pr list --author "app/quarkus-hilla-bot" --json id,title,baseRefName,headRefName,number) | \
+          existingPR=$(gh pr list --author "app/quarkus-hilla-bot" --json id,title,baseRefName,headRefName,number | \
             jq '.[] | select( .baseRefName == ${{ inputs.target-branch }} and .headRefName == "chore/update_npm_deps_${{ inputs.target-branch }}" ) | .number')
           echo "prNumber=${existingPR:-0}" >> "$GITHUB_OUTPUT"
         env:
