@@ -16,11 +16,14 @@ updates:
       interval: "daily"
     ignore:
       - dependency-name: "dev.hilla:*"
-        versions: ">= 2.0"
+        update-types: [ "version-update:semver-major", "version-update:semver-minor"]
+#        versions: ">= 2.0"
       - dependency-name: "com.vaadin:vaadin-quarkus"
-        versions: ">= 2.0"
+#        versions: ">= 2.0"
+        update-types: [ "version-update:semver-major", "version-update:semver-minor"]
       - dependency-name: "io.quarkus*:*"
-        versions: ">= 3.0"
+#        versions: ">= 3.0"
+        update-types: [ "version-update:semver-major", "version-update:semver-minor"]
   - package-ecosystem: "maven"
     directory: "/"
     target-branch: "2.0"
@@ -28,8 +31,11 @@ updates:
       interval: "daily"
     ignore:
       - dependency-name: "dev.hilla:*"
-        versions: ">= 2"
+        update-types: [ "version-update:semver-major", "version-update:semver-minor"]
+#        versions: ">= 2"
       - dependency-name: "com.vaadin:vaadin-quarkus"
-        versions: ">= 2"
-      - dependency-name: "io.quarkus"
-        versions: ">= 3"
+#        versions: ">= 2"
+        update-types: [ "version-update:semver-major", "version-update:semver-minor" ]
+      - dependency-name: "io.quarkus*:*"
+#        versions: ">= 3"
+        update-types: [ "version-update:semver-major", "version-update:semver-minor"]
