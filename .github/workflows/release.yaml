@@ -60,6 +60,7 @@ jobs:
              | tee -a  $GITHUB_STEP_SUMMARY
             exit 1
           fi
+          echo "Releasing version ${{ inputs.version }} from branch ${{ inputs.target-branch }}"
   run-validation:
     uses: ./.github/workflows/build-and-test.yaml
     needs: [ check-inputs ]
