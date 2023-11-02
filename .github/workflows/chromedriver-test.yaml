@@ -1,0 +1,20 @@
+name: Chromedriver test
+on:
+  workflow_call:
+    inputs:
+      install:
+        default: true
+        type: boolean
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: browser-actions/setup-chrome@latest
+        id: setup-chrome
+        if: inputs.install
+        with:
+          chrome-version: stable
+      - name: Build
+        run: |
+          set -x -e -o pipefail
+          mvn -V -e -B -ntp help:evaluate -Dexpression="selenide.browserBinary" -Dselenide.browserBinary=${{ steps.setup-chrome.outputs.chrome-path }}
