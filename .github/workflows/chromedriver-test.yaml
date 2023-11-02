@@ -7,12 +7,12 @@ on:
         default: true
         type: boolean
 jobs:
-  build-and-test:
+  setup-chrome:
     runs-on: ubuntu-latest
     steps:
       - uses: browser-actions/setup-chrome@latest
         id: setup-chrome
-        if: inputs.install
+        if: ${{ !vars.QH_DISABLE_CHROME_INSTALL }}
         with:
           chrome-version: stable
       - name: Build
