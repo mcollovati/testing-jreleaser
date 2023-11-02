@@ -1,8 +1,9 @@
 name: Chromedriver test
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       install:
+        description: install chrome
         default: true
         type: boolean
 jobs:
