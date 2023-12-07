@@ -1,5 +1,5 @@
 name: Release
-run-name: "Release ${{ inputs.version }} from ${{ inputs.target-branch }} ${{ inputs.dry-run && '(DRY RUN)'}}"
+run-name: "Release ${{ inputs.version }} from ${{ inputs.target-branch }} ${{ inputs.dry-run && '(DRY RUN)' || ''}}"
 on:
   workflow_dispatch:
     inputs:
